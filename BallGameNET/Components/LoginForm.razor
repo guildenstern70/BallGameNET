@@ -1,0 +1,92 @@
+ @**
+  
+  Project SmartBlazor
+  Copyright (C) 2021 Alessio Saltarin 'alessiosaltarin@gmail.com'
+  This software is licensed under MIT License. See LICENSE.
+  
+ **@
+ 
+@using BallGameNET.Services
+
+@inject ISiteUserService _userService
+@inject ISessionService  _sessionService
+@inject NavigationManager _navigationManager
+@inject ILogger<LoginForm> _logger
+ 
+ <form class="mt-5 pb-5">
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+      <input type="email" id="username" class="form-control"
+             @bind="_candidateUser"/>
+    <label class="form-label" for="username">Email address</label>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+      <input type="password" id="password" class="form-control"
+             @bind="_candidatePassword"/>
+    <label class="form-label" for="password">Password</label>
+  </div>
+
+  <div class="d-flex mb-4 mt-2">
+      <!-- Checkbox -->
+      <div class="form-check flex-fill">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="rememberme"
+              checked
+          />
+          <label class="form-check-label" for="rememberme"> Remember me </label>
+      </div>
+      <a class="text-info flex-fill text-end" href="#">Forgot password?</a>
+  </div>
+  
+  <!-- Error message -->
+  <div class="@_errorMessageStyle" role="alert">
+      <i class="bi bi-exclamation-circle"></i>
+      <span>&nbsp;Unknown username or password.</span>
+      <button type="button" class="btn-close" aria-label="Close" @onclick="Dismiss"></button>
+  </div>
+
+  <!-- Submit or Cancel buttons -->
+  <button type="submit" class="btn btn-danger" @onclick="Login">Sign in</button>
+  &nbsp;
+  <a href="/" class="btn btn-info">Cancel</a>
+  
+</form>
+
+
+@code 
+{
+    private string _candidateUser = "";
+    private string _candidatePassword = "";
+    private string _errorMessageStyle = "alert alert-danger fade show d-none";
+
+    private void Dismiss()
+    {
+        _errorMessageStyle = "alert alert-danger fade show d-none";
+    }
+    
+    private async void Login()
+    {
+        _errorMessageStyle = "alert alert-danger alert-dismissible fade show d-none";
+        this._logger.LogInformation("User login request...");
+        if (this._userService.CheckLogin(_candidateUser, _candidatePassword))
+        {
+            this._logger.LogInformation("Login OK, user is {CandidateUser}", _candidateUser);
+            await this._sessionService.Login(_candidateUser);
+            this._navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            this._logger.LogWarning("Login error: bad username or password");
+            _errorMessageStyle = "alert alert-danger alert-dismissible fade show";
+            _candidateUser = "";
+            _candidatePassword = "";
+        }
+    }
+
+}
+
