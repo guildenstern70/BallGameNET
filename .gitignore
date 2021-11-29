@@ -24,4 +24,5 @@ bld/
 
 # Other IDEs
 .vs/
-idea/
+.idea/
+

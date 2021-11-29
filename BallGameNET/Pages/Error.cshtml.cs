@@ -1,6 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/**
+ * 
+ * Project BallGame.NET
+ * Copyright (C) 2021 Alessio Saltarin 'alessiosaltarin@gmail.com'
+ * This software is licensed under MIT License. See LICENSE.
+ * 
+ **/
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace BallGameNET.Pages
 {
