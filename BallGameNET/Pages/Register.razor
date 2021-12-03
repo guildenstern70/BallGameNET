@@ -1,15 +1,14 @@
-﻿ @**
+@**
   
-  Project BallGame.NET
+  Project SmartBlazor
   Copyright (C) 2021 Alessio Saltarin 'alessiosaltarin@gmail.com'
   This software is licensed under MIT License. See LICENSE.
   
  **@
 
-@page "/"
+@page "/register"
 
-<PageTitle>Index</PageTitle>
-
+<PageTitle>Register user</PageTitle>
 
 <div class="container">
     <div class="row">
@@ -17,19 +16,10 @@
         <div class="col">
             <div class="mt-4 p-5 rounded">
                 <h2 class="text-warning">BallGame.NET</h2> 
-                <p><i class="bi-box"></i> A baseball simulation game.</p> 
-                <img src="img/KoreanBaseball-Primary.jpg" class="img-fluid" alt="Baseball" />
-                <a href="/login" class="btn btn-danger mt-3">Sign in</a>
-                &nbsp;
-                <a href="/register" class="btn btn-info mt-3">Sign up</a>
+                <p><i class="bi-box"></i> Please register:</p> 
+                <BallGameNET.Components.RegistrationForm />
             </div>
         </div>
         <div class="col-2">&nbsp;</div>
     </div>
 </div>
-
-
-
-
-
-

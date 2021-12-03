@@ -22,6 +22,10 @@ public class SiteUserService : ISiteUserService
 
     public bool IsUsernameAvailable(string username)
     {
+        if (username.Length < 2)
+            return false;
+        if (!username.Contains('@'))
+            return false;
         return this.GetUser(username) == null;
     }
 

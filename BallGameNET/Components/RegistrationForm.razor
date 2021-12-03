@@ -1,0 +1,155 @@
+@**
+  
+  Project SmartBlazor
+  Copyright (C) 2021 Alessio Saltarin 'alessiosaltarin@gmail.com'
+  This software is licensed under MIT License. See LICENSE.
+  
+ **@
+ 
+@using BallGameNET.Services
+@using Microsoft.AspNetCore.Server.IIS.Core
+
+@inject ISiteUserService _userService
+@inject ILogger<RegistrationForm> _logger
+@inject NavigationManager _navigationManager
+
+<form class="mt-5 pb-5 needs-validation" novalidate>
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <input type="email" id="username" class="@_usernameStyle"
+               @bind="_candidateUsername" onblur="@CheckUsernameAvailable" required />
+        <label class="form-label" for="username">Email address</label>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            Invalid username or already taken.
+        </div>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <input type="password" id="password" class="@_password1Style"
+               @bind="_candidatePassword" onblur="@ValidatePassword1" required />
+        <label class="form-label" for="password">Password</label>
+        <div class="invalid-feedback">
+              Password must be at least 8 characters 
+        </div>
+    </div>
+    
+    <!-- Password verification input -->
+    <div class="form-outline mb-4">
+        <input type="password" id="verifypassword" class="@_password2Style"
+               @bind="_confirmationPassword"
+               onblur="@ValidatePassword2"
+               required />
+        <label class="form-label" for="verifypassword">Verify Password</label>
+        <div class="invalid-feedback">
+              Passwords do not match
+        </div>
+    </div>
+    
+    <!-- Submit or Cancel buttons -->
+    <button type="submit" class="btn btn-danger" @attributes="SubmitAttributes" 
+            @onclick="Register">Sign up</button>
+    &nbsp;
+    <a href="/" class="btn btn-info">Cancel</a>
+  
+</form>
+
+@code {
+
+    private string _candidateUsername = "";
+    private string _candidatePassword = "";
+    private string _confirmationPassword = "";
+
+    private bool _isUsernameOk;
+    private bool _isPasswordOk;
+    private bool _isConfirmationOk;
+
+    private string _usernameStyle = "form-control";
+    private string _password1Style = "form-control";
+    private string _password2Style = "form-control";
+
+    private Dictionary<string, object> SubmitAttributes { get; } =
+        new()
+            {
+                { "disabled", "disabled" }
+            };
+    
+    private void Register()
+    {
+        _logger.LogInformation("Registering new user " + _candidateUsername + "...");
+        _userService.AddUser(_candidateUsername, _candidatePassword);
+        _logger.LogInformation("Done.");
+        _navigationManager.NavigateTo("/registeredok");
+    }
+    
+    private void CleanUp()
+    {
+        SubmitAttributes.Clear();
+        SubmitAttributes.Add("disabled", "disabled");
+    }
+
+    private void UnlockSubmit()
+    {
+        if (!_isUsernameOk || !_isPasswordOk || !_isConfirmationOk) return;
+        this._logger.LogInformation("Username and password OK.");
+        this._logger.LogInformation("Removing Disabled");
+        SubmitAttributes.Remove("disabled");
+    }
+
+    private void ValidatePassword2()
+    {
+        this._logger.LogInformation("Validating password 2 > " + _confirmationPassword);
+        if (_confirmationPassword.Equals(_candidatePassword))
+        {
+            this._logger.LogInformation("> Password matches...");
+            _password2Style = "form-control is-valid";
+            _isConfirmationOk = true;
+        }
+        else
+        {
+            _password2Style = "form-control is-invalid";
+            _isConfirmationOk = false;
+        }
+        this.UnlockSubmit();
+    }
+
+    private void ValidatePassword1()
+    {
+        this._logger.LogInformation("Validating password 1 > " + _candidatePassword);
+        
+        if (_candidatePassword.Length >= 8)
+        {
+            this._logger.LogInformation("Password is > 8 chars...");
+            _password1Style = "form-control is-valid";
+            _isPasswordOk = true;
+        }
+        else
+        {
+            _password1Style = "form-control is-invalid"; 
+            _isPasswordOk = false;
+        }
+        
+        this.UnlockSubmit();
+    }
+
+    private void CheckUsernameAvailable()
+    {
+        this._logger.LogInformation("Validating username > " + _candidateUsername);
+        if (!_userService.IsUsernameAvailable(_candidateUsername))
+        {
+            _usernameStyle = "form-control is-invalid";
+            _isUsernameOk = false;
+        }
+        else
+        {
+            _usernameStyle = "form-control is-valid";
+            _isUsernameOk = true;
+        }
+
+        this.UnlockSubmit();
+    }
+
+}
