@@ -9,27 +9,23 @@
 @page "/"
 
 <PageTitle>Index</PageTitle>
-
-
+ 
 <div class="container">
     <div class="row">
         <div class="col-2">&nbsp;</div>
         <div class="col">
-            <div class="mt-4 p-5 rounded">
-                <h2 class="text-warning">BallGame.NET</h2> 
-                <p><i class="bi-box"></i> A baseball simulation game.</p> 
-                <img src="img/KoreanBaseball-Primary.jpg" class="img-fluid" alt="Baseball" />
+            <BallGameNET.Components.LoginCard
+                Title="BallGame.NET"
+                Subtitle="A baseball simulation game.">
+                <img src="img/KoreanBaseball-Primary.jpg" class="img-fluid" alt="Baseball"/>
                 <a href="/login" class="btn btn-danger mt-3">Sign in</a>
                 &nbsp;
                 <a href="/register" class="btn btn-info mt-3">Sign up</a>
-            </div>
+            </BallGameNET.Components.LoginCard>
         </div>
         <div class="col-2">&nbsp;</div>
     </div>
 </div>
-
-
-
-
+ 
 
 

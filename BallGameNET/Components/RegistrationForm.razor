@@ -18,7 +18,7 @@
     <div class="form-outline mb-4">
         <input type="email" id="username" class="@_usernameStyle"
                @bind="_candidateUsername" onblur="@CheckUsernameAvailable" required />
-        <label class="form-label" for="username">Email address</label>
+        <label class="form-label text-muted" for="username">Email address</label>
         <div class="valid-feedback">
             Looks good!
         </div>
@@ -31,7 +31,7 @@
     <div class="form-outline mb-4">
         <input type="password" id="password" class="@_password1Style"
                @bind="_candidatePassword" onblur="@ValidatePassword1" required />
-        <label class="form-label" for="password">Password</label>
+        <label class="form-label text-muted" for="password">Password</label>
         <div class="invalid-feedback">
               Password must be at least 8 characters 
         </div>
@@ -43,7 +43,7 @@
                @bind="_confirmationPassword"
                onblur="@ValidatePassword2"
                required />
-        <label class="form-label" for="verifypassword">Verify Password</label>
+        <label class="form-label text-muted" for="verifypassword">Verify Password</label>
         <div class="invalid-feedback">
               Passwords do not match
         </div>
@@ -82,7 +82,7 @@
         _logger.LogInformation("Registering new user " + _candidateUsername + "...");
         _userService.AddUser(_candidateUsername, _candidatePassword);
         _logger.LogInformation("Done.");
-        _navigationManager.NavigateTo("/registeredok");
+        _navigationManager.NavigateTo("/registerok");
     }
     
     private void CleanUp()

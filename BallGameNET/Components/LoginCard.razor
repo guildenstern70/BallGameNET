@@ -1,0 +1,23 @@
+ @**
+  
+  Project SmartBlazor
+  Copyright (C) 2021 Alessio Saltarin 'alessiosaltarin@gmail.com'
+  This software is licensed under MIT License. See LICENSE.
+  
+ **@
+ 
+<div class="mt-4 p-5 rounded bg-light">
+    <h2 class="text-info">@Title</h2> 
+    <p><i class="bi-box"></i>&nbsp;@Subtitle</p> 
+    <span>@ChildContent</span>
+</div>
+
+@code 
+{
+    [Parameter]
+    public string Title { get; set; } = "Title";
+    [Parameter]
+    public string Subtitle { get; set; } = "Subtitle";
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
